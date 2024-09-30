@@ -4,10 +4,10 @@
 	"Disabled": false,
 	"IsGlobal": false,
 	"Name": "SSH",
-	"Author": "",
+	"Author": "8LWXpg",
 	"Version": "1.0.0",
 	"Language": "csharp",
-	"Website": "",
+	"Website": "https://github.com/8LWXpg/PowerToysRun-SSH",
 	"ExecuteFileName": "Community.PowerToys.Run.Plugin.SSH.dll",
 	"IcoPathDark": "Images\\SSH.dark.png",
 	"IcoPathLight": "Images\\SSH.light.png"
