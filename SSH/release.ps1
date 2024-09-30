@@ -16,16 +16,15 @@ foreach ($arch in $archs) {
 
 	dotnet build -c Release /p:Platform=$arch
 
-	Remove-Item "$tempDir/*" -Recurse -Force -ErrorAction Ignore
-	mkdir "$tempDir" -ErrorAction Ignore
+	Remove-Item "./out/$name/*" -Recurse -Force -ErrorAction Ignore
 	$items = @(
 		"$releasePath/$assembly.deps.json",
 		"$releasePath/$assembly.dll",
 		"$releasePath/plugin.json",
 		"$releasePath/Images"
 	)
-	Copy-Item $items "$tempDir" -Recurse -Force
-	Compress-Archive "$tempDir" "./out/$name-$version-$arch.zip" -Force
+	Copy-Item $items "./out/$name" -Recurse -Force
+	Compress-Archive "./out/$name" "./out/$name-$version-$arch.zip" -Force
 }
 
 gh release create $version (Get-ChildItem ./out/*.zip)
