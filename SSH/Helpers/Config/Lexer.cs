@@ -1,4 +1,3 @@
-using System;
 using System.IO;
 using System.Text.RegularExpressions;
 
@@ -17,7 +16,7 @@ public partial class Lexer
 		var lines = File.ReadAllLines(configPath);
 		foreach (var line in lines)
 		{
-			var match = NodeRegex().Match(line);
+			Match match = NodeRegex().Match(line);
 			if (match.Success)
 			{
 				Nodes.Add(new KeyValuePair<string, string>(match.Groups[1].Value, match.Groups[2].Value));
@@ -25,6 +24,6 @@ public partial class Lexer
 		}
 	}
 
-	[GeneratedRegex(@"^\s*(\S+)\s+(\S+)\s*$", RegexOptions.Compiled)]
+	[GeneratedRegex(@"^\s*(\S+)\s+([^\s\*\?!,'""]*)\s*$", RegexOptions.Compiled)]
 	private static partial Regex NodeRegex();
 }
