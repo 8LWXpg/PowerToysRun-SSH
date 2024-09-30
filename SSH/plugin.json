@@ -1,0 +1,14 @@
+{
+	"ID": "ca17a4e0a0b54d2a8c2994b6f866e082",
+	"ActionKeyword": "ssh",
+	"Disabled": false,
+	"IsGlobal": false,
+	"Name": "SSH",
+	"Author": "",
+	"Version": "1.0.0",
+	"Language": "csharp",
+	"Website": "",
+	"ExecuteFileName": "Community.PowerToys.Run.Plugin.SSH.dll",
+	"IcoPathDark": "Images\\SSH.dark.png",
+	"IcoPathLight": "Images\\SSH.light.png"
+}
