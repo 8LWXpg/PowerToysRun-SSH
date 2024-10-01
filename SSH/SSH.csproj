@@ -8,10 +8,10 @@
         <RootNamespace>Community.PowerToys.Run.Plugin.SSH</RootNamespace>
         <Version>$([System.Text.RegularExpressions.Regex]::Match([System.IO.File]::ReadAllText('.\plugin.json'), '"Version": "(\S+)"').Groups[1].Value)</Version>
         <Platforms>x64;ARM64</Platforms>
-        <Title></Title>
-        <Product></Product>
-        <Authors></Authors>
-        <RepositoryUrl></RepositoryUrl>
+        <Title>PowerToysRun-SSH</Title>
+        <Product>PowerToysRun-SSH</Product>
+        <Authors>8LWXpg</Authors>
+        <RepositoryUrl>https://github.com/8LWXpg/PowerToysRun-SSH</RepositoryUrl>
     </PropertyGroup>
 
     <PropertyGroup Condition="'$(Configuration)'=='Debug'">
