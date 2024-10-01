@@ -1,5 +1,3 @@
-using System;
-
 namespace Community.PowerToys.Run.Plugin.SSH.Helpers.Config;
 
 public class Parser
@@ -12,10 +10,10 @@ public class Parser
 	public Parser(string configPath)
 	{
 		Nodes = [];
-		var nodes = new Lexer(configPath).Nodes;
+		var lexer = new Lexer(configPath);
 
 		ConfigNode? current = null;
-		foreach (var node in nodes)
+		foreach (var node in lexer.Nodes)
 		{
 			// First node must be Host
 			if (node.Key == "Host")
