@@ -19,11 +19,13 @@ public partial class Lexer
 			Match match = NodeRegex().Match(line);
 			if (match.Success)
 			{
-				Nodes.Add(new KeyValuePair<string, string>(match.Groups[1].Value, match.Groups[2].Value));
+				var key = match.Groups[1].Value;
+				var value = match.Groups[2].Value;
+				Nodes.Add(new KeyValuePair<string, string>(key, value));
 			}
 		}
 	}
 
-	[GeneratedRegex(@"^\s*(\S+)\s+([^\s\*\?!,'""]*)\s*$", RegexOptions.Compiled)]
+	[GeneratedRegex(@"^\s*(\S+)\s+(\S+)\s*$", RegexOptions.Compiled)]
 	private static partial Regex NodeRegex();
 }

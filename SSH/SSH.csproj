@@ -4,12 +4,13 @@
         <useWPF>true</useWPF>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
+		<CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
         <AssemblyName>Community.PowerToys.Run.Plugin.SSH</AssemblyName>
         <RootNamespace>Community.PowerToys.Run.Plugin.SSH</RootNamespace>
         <Version>$([System.Text.RegularExpressions.Regex]::Match([System.IO.File]::ReadAllText('.\plugin.json'), '"Version": "(\S+)"').Groups[1].Value)</Version>
         <Platforms>x64;ARM64</Platforms>
-        <Title>PowerToysRun-SSH</Title>
-        <Product>PowerToysRun-SSH</Product>
+        <Title>PowerToys Run SSH</Title>
+        <Product>PowerToys Run SSH Plugin</Product>
         <Authors>8LWXpg</Authors>
         <RepositoryUrl>https://github.com/8LWXpg/PowerToysRun-SSH</RepositoryUrl>
     </PropertyGroup>
@@ -61,6 +62,7 @@
         <None Include="plugin.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
+        <PackageReference Include="Glob" Version="1.1.9" />
         <None Update="Images\*.png">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>

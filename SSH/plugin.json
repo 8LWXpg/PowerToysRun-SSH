@@ -3,6 +3,7 @@
 	"ActionKeyword": "ssh",
 	"Disabled": false,
 	"IsGlobal": false,
+	"DynamicLoading": true,
 	"Name": "SSH",
 	"Author": "8LWXpg",
 	"Version": "1.0.2",

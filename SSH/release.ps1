@@ -5,7 +5,7 @@ $name = 'SSH'
 $assembly = "Community.PowerToys.Run.Plugin.$name"
 $version = "v$((Get-Content ./plugin.json | ConvertFrom-Json).Version)"
 $archs = @('x64', 'arm64')
-$tempDir = "./out/SSH"
+$tempDir = './out/SSH'
 
 git tag $version
 git push --tags
@@ -21,6 +21,7 @@ foreach ($arch in $archs) {
 	$items = @(
 		"$releasePath/$assembly.deps.json",
 		"$releasePath/$assembly.dll",
+		"$releasePath/Glob.dll",
 		"$releasePath/plugin.json",
 		"$releasePath/Images"
 	)
