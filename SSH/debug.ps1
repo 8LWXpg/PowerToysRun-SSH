@@ -15,6 +15,7 @@ sudo {
 	$files = @(
 		"Community.PowerToys.Run.Plugin.$safeProjectName.deps.json",
 		"Community.PowerToys.Run.Plugin.$safeProjectName.dll",
+		'Glob.dll',
 		'plugin.json',
 		'Images'
 	)
