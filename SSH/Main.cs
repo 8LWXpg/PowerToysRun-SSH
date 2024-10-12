@@ -55,6 +55,7 @@ public class Main : IPlugin, IPluginI18n, ISettingProvider, IReloadable, IDispos
 			{
 				Title = host.Host,
 				SubTitle = $"{host.User}@{host.HostName}",
+				ToolTipData = new ToolTipData(host.Host, host.ToString()),
 				IcoPath = _iconPath,
 				Score = match.Score,
 				TitleHighlightData = match.MatchData,

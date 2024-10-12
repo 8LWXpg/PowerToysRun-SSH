@@ -26,6 +26,6 @@ public partial class Lexer
 		}
 	}
 
-	[GeneratedRegex(@"^\s*(\S+)\s+(\S+)\s*$", RegexOptions.Compiled)]
+	[GeneratedRegex(@"^\s*(\S+)\s+([\S\s]+)\s*$", RegexOptions.Compiled)]
 	private static partial Regex NodeRegex();
 }

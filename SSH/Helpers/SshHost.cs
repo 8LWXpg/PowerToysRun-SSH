@@ -1,11 +1,21 @@
-using System;
 using Community.PowerToys.Run.Plugin.SSH.Helpers.Config;
 
 namespace Community.PowerToys.Run.Plugin.SSH.Helpers;
 
-public class SshHost(ConfigNode node)
+public record SshHost
 {
-	public string Host { get; set; } = node.Host;
-	public string HostName { get; set; } = node.Properties.TryGetValue("HostName", out string? hostName) ? hostName : "";
-	public string User { get; set; } = node.Properties.TryGetValue("User", out string? user) ? user : "";
+	public string Host { get; }
+	public string HostName { get; }
+	public string User { get; }
+	public Dictionary<string, string> Properties { get; }
+
+	public SshHost(ConfigNode node)
+	{
+		Host = node.Host;
+		HostName = node.Properties.TryGetValue("HostName", out var hostName) ? hostName : "";
+		User = node.Properties.TryGetValue("User", out var user) ? user : "";
+		Properties = node.Properties;
+	}
+
+	public override string ToString() => string.Join("\n", Properties.Select(kv => $"{kv.Key} {kv.Value}"));
 }

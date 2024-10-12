@@ -18,6 +18,7 @@ public class Parser
 		ConfigNode? current = null;
 		foreach (KeyValuePair<string, string> node in lexer.Nodes)
 		{
+
 			// First node must be Host
 			if (node.Key == "Host")
 			{
