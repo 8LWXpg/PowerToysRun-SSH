@@ -48,9 +48,9 @@ public class Main : IPlugin, IPluginI18n, ISettingProvider, IReloadable, IDispos
 	{
 		ArgumentNullException.ThrowIfNull(query);
 
-		var results = SshProfile.Hosts.ConvertAll(host =>
+		List<Result> results = SshProfile.Hosts.ConvertAll(host =>
 		{
-			var match = StringMatcher.FuzzySearch(query.Search, host.Host);
+			MatchResult match = StringMatcher.FuzzySearch(query.Search, host.Host);
 			return new Result
 			{
 				Title = host.Host,
@@ -59,17 +59,13 @@ public class Main : IPlugin, IPluginI18n, ISettingProvider, IReloadable, IDispos
 				IcoPath = _iconPath,
 				Score = match.Score,
 				TitleHighlightData = match.MatchData,
-				Action = _ =>
-				{
-					TerminalHelper.OpenTerminal(host.Host, _openQuake, _openNewTab);
-					return true;
-				},
+				Action = _ => TerminalHelper.OpenTerminal(host.Host, _openQuake, _openNewTab)
 			};
 		});
 
 		if (!string.IsNullOrEmpty(query.Search))
 		{
-			results.RemoveAll(x => x.Score <= 0);
+			_ = results.RemoveAll(x => x.Score <= 0);
 		}
 
 		return results;
@@ -86,7 +82,7 @@ public class Main : IPlugin, IPluginI18n, ISettingProvider, IReloadable, IDispos
 
 	public string GetTranslatedPluginDescription() => Resources.plugin_description;
 
-	private void OnThemeChanged(Theme oldtheme, Theme newTheme) => UpdateIconPath(newTheme);
+	private void OnThemeChanged(Theme oldTheme, Theme newTheme) => UpdateIconPath(newTheme);
 
 	private void UpdateIconPath(Theme theme) => _iconPath = theme is Theme.Light or Theme.HighContrastWhite ? "Images/SSH.light.png" : "Images/SSH.dark.png";
 
