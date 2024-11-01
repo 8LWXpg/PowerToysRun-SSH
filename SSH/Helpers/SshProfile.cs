@@ -1,42 +1,42 @@
-using System.IO;
 using Community.PowerToys.Run.Plugin.SSH.Helpers.Config;
+using System.IO;
 
 namespace Community.PowerToys.Run.Plugin.SSH.Helpers;
 
-public class SshProfile
+public static class SshProfile
 {
 	public static readonly string ConfigPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), ".ssh", "config");
-	private static List<SshHost>? _cachedHosts;
-	private static readonly object _lock = new();
-	private static readonly FileSystemWatcher? _fileWatcher;
+	private static List<SshHost>? CachedHosts;
+	private static readonly object Lock = new();
+	private static readonly FileSystemWatcher? FileWatcher;
 	public static List<SshHost> Hosts
 	{
 		get
 		{
-			lock (_lock)
+			lock (Lock)
 			{
-				_cachedHosts ??= new Parser(ConfigPath).Nodes.Select(node => new SshHost(node)).ToList();
-				return _cachedHosts;
+				CachedHosts ??= new Parser(ConfigPath).Nodes.Select(node => new SshHost(node)).ToList();
+				return CachedHosts;
 			}
 		}
 	}
 
 	static SshProfile()
 	{
-		_fileWatcher = new FileSystemWatcher
+		FileWatcher = new FileSystemWatcher
 		{
 			Path = Path.GetDirectoryName(ConfigPath) ?? string.Empty,
 			Filter = Path.GetFileName(ConfigPath),
 			NotifyFilter = NotifyFilters.LastWrite
 		};
 
-		_fileWatcher.Changed += (_, _) =>
+		FileWatcher.Changed += (_, _) =>
 		{
-			lock (_lock)
+			lock (Lock)
 			{
-				_cachedHosts = null;
+				CachedHosts = null;
 			}
 		};
-		_fileWatcher.EnableRaisingEvents = true;
+		FileWatcher.EnableRaisingEvents = true;
 	}
 }
