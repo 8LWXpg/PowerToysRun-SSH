@@ -1,11 +1,13 @@
 using System.IO;
 using System.Text.RegularExpressions;
+using GlobExpressions;
 
 namespace Community.PowerToys.Run.Plugin.SSH.Helpers.Config;
 
 public partial class Lexer
 {
 	public List<KeyValuePair<string, string>> Nodes;
+	public HashSet<string> Includes;
 
 	/// <summary>
 	/// Convert ssh config file to dictionary<key, value>
@@ -13,6 +15,7 @@ public partial class Lexer
 	public Lexer(string configPath)
 	{
 		Nodes = [];
+		Includes = [];
 		var lines = File.ReadAllLines(configPath);
 		foreach (var line in lines)
 		{
@@ -21,7 +24,16 @@ public partial class Lexer
 			{
 				var key = match.Groups[1].Value;
 				var value = match.Groups[2].Value;
-				Nodes.Add(new KeyValuePair<string, string>(key, value));
+				if (key == "Include")
+				{
+					value = value.Replace("~", Environment.GetFolderPath(Environment.SpecialFolder.UserProfile));
+					Includes.Add(value);
+					Nodes.AddRange(Glob.Files(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), ".ssh"), value).SelectMany(f => new Lexer(f).Nodes));
+				}
+				else
+				{
+					Nodes.Add(new KeyValuePair<string, string>(key, value));
+				}
 			}
 		}
 	}

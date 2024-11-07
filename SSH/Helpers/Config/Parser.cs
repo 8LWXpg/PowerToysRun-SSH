@@ -5,6 +5,7 @@ namespace Community.PowerToys.Run.Plugin.SSH.Helpers.Config;
 public class Parser
 {
 	public List<ConfigNode> Nodes;
+	public HashSet<string> Includes;
 
 	/// <summary>
 	/// Convert Lexer nodes to ConfigNode
@@ -14,6 +15,7 @@ public class Parser
 		Nodes = [];
 		List<ConfigNode> globNodes = [];
 		var lexer = new Lexer(configPath);
+		Includes = lexer.Includes;
 
 		ConfigNode? current = null;
 		foreach (KeyValuePair<string, string> node in lexer.Nodes)

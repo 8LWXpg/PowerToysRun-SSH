@@ -8,7 +8,7 @@ public static class SshProfile
 	public static readonly string ConfigPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), ".ssh", "config");
 	private static List<SshHost>? CachedHosts;
 	private static readonly object Lock = new();
-	private static readonly FileSystemWatcher? FileWatcher;
+	private static readonly FileSystemWatcher[] FileWatchers;
 	public static List<SshHost> Hosts
 	{
 		get
@@ -23,20 +23,28 @@ public static class SshProfile
 
 	static SshProfile()
 	{
-		FileWatcher = new FileSystemWatcher
+		var config = new Parser(ConfigPath);
+		CachedHosts = config.Nodes.Select(node => new SshHost(node)).ToList();
+		var includes = config.Includes;
+		FileWatchers = includes.Select(inc =>
 		{
-			Path = Path.GetDirectoryName(ConfigPath) ?? string.Empty,
-			Filter = Path.GetFileName(ConfigPath),
-			NotifyFilter = NotifyFilters.LastWrite
-		};
-
-		FileWatcher.Changed += (_, _) =>
-		{
-			lock (Lock)
+			var fileWatcher = new FileSystemWatcher
 			{
-				CachedHosts = null;
-			}
-		};
-		FileWatcher.EnableRaisingEvents = true;
+				Path = Path.GetDirectoryName(ConfigPath) ?? string.Empty,
+				Filter = Path.GetFileName(ConfigPath),
+				NotifyFilter = NotifyFilters.LastWrite
+			};
+
+			fileWatcher.Changed += (_, _) =>
+			{
+				lock (Lock)
+				{
+					CachedHosts = null;
+				}
+			};
+			fileWatcher.EnableRaisingEvents = true;
+
+			return fileWatcher;
+		}).ToArray();
 	}
 }
