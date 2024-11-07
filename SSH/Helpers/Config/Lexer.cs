@@ -24,15 +24,26 @@ public partial class Lexer
 			{
 				var key = match.Groups[1].Value;
 				var value = match.Groups[2].Value;
-				if (key == "Include")
+
+				// trim comment
+				var comment = value.IndexOf('#');
+				if (comment != -1)
 				{
-					value = value.Replace("~", Environment.GetFolderPath(Environment.SpecialFolder.UserProfile));
-					Includes.Add(value);
-					Nodes.AddRange(Glob.Files(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), ".ssh"), value).SelectMany(f => new Lexer(f).Nodes));
+					value = value[..comment];
 				}
-				else
+
+				if (!key.StartsWith('#'))
 				{
-					Nodes.Add(new KeyValuePair<string, string>(key, value));
+					if (key == "Include")
+					{
+						value = value.Replace("~", Environment.GetFolderPath(Environment.SpecialFolder.UserProfile));
+						Includes.Add(value);
+						Nodes.AddRange(Glob.Files(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), ".ssh"), value).SelectMany(f => new Lexer(f).Nodes));
+					}
+					else
+					{
+						Nodes.Add(new KeyValuePair<string, string>(key, value));
+					}
 				}
 			}
 		}
