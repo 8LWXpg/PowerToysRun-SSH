@@ -21,7 +21,16 @@ public partial class Lexer
 			{
 				var key = match.Groups[1].Value;
 				var value = match.Groups[2].Value;
-				Nodes.Add(new KeyValuePair<string, string>(key, value));
+				var comment = value.IndexOf('#');
+				if (comment != -1)
+				{
+					value = value[..comment];
+				}
+
+				if (!key.StartsWith('#'))
+				{
+					Nodes.Add(new KeyValuePair<string, string>(key, value));
+				}
 			}
 		}
 	}
