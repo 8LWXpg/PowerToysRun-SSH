@@ -20,7 +20,6 @@ public class Parser
 		ConfigNode? current = null;
 		foreach (KeyValuePair<string, string> node in lexer.Nodes)
 		{
-
 			// First node must be Host
 			if (node.Key == "Host")
 			{
@@ -34,10 +33,7 @@ public class Parser
 			}
 			else
 			{
-				if (!current!.Properties.ContainsKey(node.Key))
-				{
-					current!.Properties.Add(node.Key, node.Value);
-				}
+				_ = current!.Properties.TryAdd(node.Key, node.Value);
 			}
 		}
 
@@ -48,15 +44,14 @@ public class Parser
 			foreach (ConfigNode node in Nodes)
 			{
 				var glob = new Glob(globNode.Host);
-				if (glob.IsMatch(node.Host))
+				if (!glob.IsMatch(node.Host))
 				{
-					foreach (KeyValuePair<string, string> property in globNode.Properties)
-					{
-						if (!node.Properties.ContainsKey(property.Key))
-						{
-							node.Properties.Add(property.Key, property.Value);
-						}
-					}
+					continue;
+				}
+
+				foreach (KeyValuePair<string, string> property in globNode.Properties)
+				{
+					_ = node.Properties.TryAdd(property.Key, property.Value);
 				}
 			}
 		}

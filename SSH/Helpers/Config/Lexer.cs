@@ -1,6 +1,6 @@
+using GlobExpressions;
 using System.IO;
 using System.Text.RegularExpressions;
-using GlobExpressions;
 
 namespace Community.PowerToys.Run.Plugin.SSH.Helpers.Config;
 
@@ -15,36 +15,60 @@ public partial class Lexer
 	public Lexer(string configPath)
 	{
 		Nodes = [];
-		Includes = [];
+		Includes = [configPath];
 		var lines = File.ReadAllLines(configPath);
 		foreach (var line in lines)
 		{
 			Match match = NodeRegex().Match(line);
-			if (match.Success)
+			if (!match.Success)
 			{
-				var key = match.Groups[1].Value;
-				var value = match.Groups[2].Value;
+				continue;
+			}
 
-				// trim comment
-				var comment = value.IndexOf('#');
-				if (comment != -1)
+			var key = match.Groups[1].Value;
+			var value = match.Groups[2].Value;
+
+			if (key.StartsWith('#'))
+			{
+				continue;
+			}
+
+			// trim comment
+			var comment = value.IndexOf('#');
+			if (comment != -1)
+			{
+				value = value[..comment];
+			}
+
+			if (key == "Include")
+			{
+				value = value.Replace("~", Environment.GetFolderPath(Environment.SpecialFolder.UserProfile));
+				string[] files;
+				if (Path.IsPathRooted(value))
 				{
-					value = value[..comment];
+					var cwd = Path.GetDirectoryName(value);
+					files = Glob.Files(cwd, Path.GetFileName(value)).Select(f => Path.Join(cwd, f)).ToArray();
+				}
+				else
+				{
+					var cwd = Path.Join(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), ".ssh", Path.GetDirectoryName(value));
+					files = Glob.Files(cwd, Path.GetFileName(value)).Select(f => Path.Join(cwd, f)).ToArray();
 				}
 
-				if (!key.StartsWith('#'))
+				foreach (var f in files)
 				{
-					if (key == "Include")
+					_ = Includes.Add(f);
+					var lexer = new Lexer(f);
+					Nodes.AddRange(lexer.Nodes);
+					foreach (var inc in lexer.Includes)
 					{
-						value = value.Replace("~", Environment.GetFolderPath(Environment.SpecialFolder.UserProfile));
-						Includes.Add(value);
-						Nodes.AddRange(Glob.Files(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), ".ssh"), value).SelectMany(f => new Lexer(f).Nodes));
-					}
-					else
-					{
-						Nodes.Add(new KeyValuePair<string, string>(key, value));
+						_ = Includes.Add(inc);
 					}
 				}
+			}
+			else
+			{
+				Nodes.Add(new KeyValuePair<string, string>(key, value));
 			}
 		}
 	}

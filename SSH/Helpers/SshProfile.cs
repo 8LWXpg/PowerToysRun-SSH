@@ -25,13 +25,13 @@ public static class SshProfile
 	{
 		var config = new Parser(ConfigPath);
 		CachedHosts = config.Nodes.Select(node => new SshHost(node)).ToList();
-		var includes = config.Includes;
+		HashSet<string> includes = config.Includes;
 		FileWatchers = includes.Select(inc =>
 		{
 			var fileWatcher = new FileSystemWatcher
 			{
-				Path = Path.GetDirectoryName(ConfigPath) ?? string.Empty,
-				Filter = Path.GetFileName(ConfigPath),
+				Path = Path.GetDirectoryName(inc) ?? string.Empty,
+				Filter = Path.GetFileName(inc),
 				NotifyFilter = NotifyFilters.LastWrite
 			};
 
