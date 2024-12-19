@@ -13,7 +13,7 @@ public static class TerminalHelper
 		}
 		else if (newTab)
 		{
-			return Helper.OpenInShell("wt", $"nt ssh {host}");
+			return Helper.OpenInShell("wt", $"-w 0 nt ssh {host}");
 		}
 		else
 		{
