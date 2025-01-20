@@ -4,7 +4,8 @@ A [PowerToys Run](https://aka.ms/PowerToysOverview_PowerToysRun) plugin for conn
 
 Checkout the [Template](https://github.com/8LWXpg/PowerToysRun-PluginTemplate) for a starting point to create your own plugin.
 
-_note: This plugin uses Windows Terminal._
+> [!NOTE]
+> This plugin uses Windows Terminal
 
 ## Features
 
