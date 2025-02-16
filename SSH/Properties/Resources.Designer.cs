@@ -61,29 +61,47 @@ namespace Community.PowerToys.Run.Plugin.SSH.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Open profiles in a new tab.
+        ///   Looks up a localized string similar to Open mode.
         /// </summary>
-        internal static string open_new_tab {
+        internal static string open_mode {
             get {
-                return ResourceManager.GetString("open_new_tab", resourceCulture);
+                return ResourceManager.GetString("open_mode", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Open profiles in the quake window.
+        ///   Looks up a localized string similar to Default.
         /// </summary>
-        internal static string open_quake {
+        internal static string open_mode_default {
             get {
-                return ResourceManager.GetString("open_quake", resourceCulture);
+                return ResourceManager.GetString("open_mode_default", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Windows Terminal supports a &quot;quake&quot; feature where a terminal window is accessible using a global hotkey. Enable this option to open profiles in a new tab in this window..
+        ///   Looks up a localized string similar to Controls how Windows Terminals opens new session.
         /// </summary>
-        internal static string open_quake_description {
+        internal static string open_mode_desc {
             get {
-                return ResourceManager.GetString("open_quake_description", resourceCulture);
+                return ResourceManager.GetString("open_mode_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to New tab.
+        /// </summary>
+        internal static string open_mode_new_tab {
+            get {
+                return ResourceManager.GetString("open_mode_new_tab", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Quake.
+        /// </summary>
+        internal static string open_mode_quake {
+            get {
+                return ResourceManager.GetString("open_mode_quake", resourceCulture);
             }
         }
         

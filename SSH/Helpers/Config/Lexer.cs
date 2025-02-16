@@ -43,7 +43,7 @@ public partial class Lexer
 			if (key == "Include")
 			{
 				value = value.Replace("~", Environment.GetFolderPath(Environment.SpecialFolder.UserProfile));
-				string cwd = Path.IsPathRooted(value)
+				var cwd = Path.IsPathRooted(value)
 					? Path.GetDirectoryName(value)!
 					: Path.Join(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), ".ssh", Path.GetDirectoryName(value));
 				var files = Glob.Files(cwd, Path.GetFileName(value)).Select(f => Path.Join(cwd, f)).ToArray();

@@ -9,12 +9,10 @@ using Wox.Plugin;
 namespace Community.PowerToys.Run.Plugin.SSH;
 public class Main : IPlugin, IPluginI18n, ISettingProvider, IReloadable, IDisposable
 {
-	private const string OpenQuake = nameof(OpenQuake);
-	private const string OpenNewTab = nameof(OpenNewTab);
+	private const string OpenMode = nameof(OpenMode);
 
 	private PluginInitContext? _context;
-	private bool _openQuake;
-	private bool _openNewTab;
+	private WindowMode _openMode;
 	private string? _iconPath;
 	private bool _disposed;
 	public string Name => Resources.plugin_name;
@@ -25,24 +23,20 @@ public class Main : IPlugin, IPluginI18n, ISettingProvider, IReloadable, IDispos
 	[
 		new ()
 		{
-			Key = OpenQuake,
-			DisplayLabel = Resources.open_quake,
-			DisplayDescription = Resources.open_quake_description,
-			Value = false,
-		},
-		new ()
-		{
-			Key = OpenNewTab,
-			DisplayLabel = Resources.open_new_tab,
-			Value = false,
+			PluginOptionType = PluginAdditionalOption.AdditionalOptionType.Combobox,
+			Key = OpenMode,
+			DisplayLabel = Resources.open_mode,
+			DisplayDescription = Resources.open_mode_desc,
+			ComboBoxItems =
+			[
+				new(Resources.open_mode_default, "0"),
+				new(Resources.open_mode_new_tab, "1"),
+				new(Resources.open_mode_quake, "2"),
+			]
 		},
 	];
 
-	public void UpdateSettings(PowerLauncherPluginSettings settings)
-	{
-		_openQuake = settings?.AdditionalOptions?.FirstOrDefault(x => x.Key == OpenQuake)?.Value ?? false;
-		_openNewTab = settings?.AdditionalOptions?.FirstOrDefault(x => x.Key == OpenNewTab)?.Value ?? false;
-	}
+	public void UpdateSettings(PowerLauncherPluginSettings settings) => _openMode = (WindowMode)(settings?.AdditionalOptions?.FirstOrDefault(x => x.Key == OpenMode)?.ComboBoxValue ?? 0);
 
 	public List<Result> Query(Query query)
 	{
@@ -59,7 +53,7 @@ public class Main : IPlugin, IPluginI18n, ISettingProvider, IReloadable, IDispos
 				IcoPath = _iconPath,
 				Score = match.Score,
 				TitleHighlightData = match.MatchData,
-				Action = _ => TerminalHelper.OpenTerminal(host.Host, _openQuake, _openNewTab)
+				Action = _ => TerminalHelper.OpenTerminal(host.Host, host.Host, _openMode)
 			};
 		});
 
