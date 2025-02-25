@@ -24,7 +24,7 @@ foreach ($arch in $archs) {
 		"$releasePath/Glob.dll",
 		"$releasePath/plugin.json",
 		"$releasePath/Images",
-		"$ReleasePath/uk_UA"
+		"$ReleasePath/uk-UA"
 	)
 	Copy-Item $items "$tempDir" -Recurse -Force
 	Compress-Archive "$tempDir" "./out/$name-$version-$arch.zip" -Force
