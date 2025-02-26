@@ -50,3 +50,7 @@ ptr add SSH 8LWXpg/PowerToysRun-SSH
 ### Localization
 
 If you want to help localize this plugin, please check the [localization guide](./Localizing.md)
+
+### Support other Terminal
+
+Check [`CONTRIBUTING.md`](./CONTRIBUTING.md)
