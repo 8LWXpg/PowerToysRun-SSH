@@ -138,4 +138,13 @@
   <data name="plugin_name" xml:space="preserve">
     <value>SSH</value>
   </data>
+  <data name="terminal" xml:space="preserve">
+    <value>Terminal</value>
+  </data>
+  <data name="terminal_desc" xml:space="preserve">
+    <value>Default terminal to use</value>
+  </data>
+  <data name="windows_terminal" xml:space="preserve">
+    <value>Windows Terminal</value>
+  </data>
 </root>

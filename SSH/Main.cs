@@ -1,5 +1,6 @@
 using Community.PowerToys.Run.Plugin.SSH.Helpers;
 using Community.PowerToys.Run.Plugin.SSH.Properties;
+using Community.PowerToys.Run.Plugin.SSH.Terminal;
 using ManagedCommon;
 using Microsoft.PowerToys.Settings.UI.Library;
 using System.Windows.Controls;
@@ -10,9 +11,11 @@ namespace Community.PowerToys.Run.Plugin.SSH;
 public class Main : IPlugin, IPluginI18n, ISettingProvider, IReloadable, IDisposable
 {
 	private const string OpenMode = nameof(OpenMode);
+	private const string Terminal = nameof(Terminal);
 
 	private PluginInitContext? _context;
 	private WindowMode _openMode;
+	private TerminalType _terminalType;
 	private string? _iconPath;
 	private bool _disposed;
 	public string Name => Resources.plugin_name;
@@ -21,7 +24,7 @@ public class Main : IPlugin, IPluginI18n, ISettingProvider, IReloadable, IDispos
 
 	public IEnumerable<PluginAdditionalOption> AdditionalOptions =>
 	[
-		new ()
+		new()
 		{
 			PluginOptionType = PluginAdditionalOption.AdditionalOptionType.Combobox,
 			Key = OpenMode,
@@ -32,11 +35,26 @@ public class Main : IPlugin, IPluginI18n, ISettingProvider, IReloadable, IDispos
 				new(Resources.open_mode_default, "0"),
 				new(Resources.open_mode_new_tab, "1"),
 				new(Resources.open_mode_quake, "2"),
-			]
+			],
+		},
+		new()
+		{
+			PluginOptionType = PluginAdditionalOption.AdditionalOptionType.Combobox,
+			Key = Terminal,
+			DisplayLabel = Resources.terminal,
+			DisplayDescription = Resources.terminal_desc,
+			ComboBoxItems =
+			[
+				new(Resources.windows_terminal, "0"),
+			],
 		},
 	];
 
-	public void UpdateSettings(PowerLauncherPluginSettings settings) => _openMode = (WindowMode)(settings?.AdditionalOptions?.FirstOrDefault(x => x.Key == OpenMode)?.ComboBoxValue ?? 0);
+	public void UpdateSettings(PowerLauncherPluginSettings settings)
+	{
+		_openMode = (WindowMode)(settings?.AdditionalOptions?.FirstOrDefault(x => x.Key == OpenMode)?.ComboBoxValue ?? 0);
+		_terminalType = (TerminalType)(settings?.AdditionalOptions?.FirstOrDefault(x => x.Key == Terminal)?.ComboBoxValue ?? 0);
+	}
 
 	public List<Result> Query(Query query)
 	{
@@ -53,7 +71,7 @@ public class Main : IPlugin, IPluginI18n, ISettingProvider, IReloadable, IDispos
 				IcoPath = _iconPath,
 				Score = match.Score,
 				TitleHighlightData = match.MatchData,
-				Action = _ => TerminalHelper.OpenTerminal(host.Host, host.Host, _openMode)
+				Action = _ => TerminalHelper.OpenTerminal(host.Host, host.Host, _openMode, _terminalType)
 			};
 		});
 

@@ -122,5 +122,32 @@ namespace Community.PowerToys.Run.Plugin.SSH.Properties {
                 return ResourceManager.GetString("plugin_name", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Terminal.
+        /// </summary>
+        internal static string terminal {
+            get {
+                return ResourceManager.GetString("terminal", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Default terminal to use.
+        /// </summary>
+        internal static string terminal_desc {
+            get {
+                return ResourceManager.GetString("terminal_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Windows Terminal.
+        /// </summary>
+        internal static string windows_terminal {
+            get {
+                return ResourceManager.GetString("windows_terminal", resourceCulture);
+            }
+        }
     }
 }
