@@ -5,7 +5,7 @@ A [PowerToys Run](https://aka.ms/PowerToysOverview_PowerToysRun) plugin for conn
 Checkout the [Template](https://github.com/8LWXpg/PowerToysRun-PluginTemplate) for a starting point to create your own plugin.
 
 > [!NOTE]
-> Different terminals might behave different open mode.
+> Different terminals might behave different on open mode.
 
 ## Features
 
