@@ -4,7 +4,7 @@ namespace Community.PowerToys.Run.Plugin.SSH.Terminal;
 
 public class WindowsTerminal : ITerminalHandler
 {
-	public bool OpenTerminal(string host, string title, WindowMode mode)
+	public static bool OpenTerminal(string host, string title, WindowMode mode)
 	{
 		var arguments = mode switch
 		{
