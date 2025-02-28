@@ -1,9 +1,9 @@
+using System.Windows.Controls;
 using Community.PowerToys.Run.Plugin.SSH.Helpers;
 using Community.PowerToys.Run.Plugin.SSH.Properties;
 using Community.PowerToys.Run.Plugin.SSH.Terminal;
 using ManagedCommon;
 using Microsoft.PowerToys.Settings.UI.Library;
-using System.Windows.Controls;
 using Wox.Infrastructure;
 using Wox.Plugin;
 
@@ -45,7 +45,7 @@ public class Main : IPlugin, IPluginI18n, ISettingProvider, IReloadable, IDispos
 			DisplayDescription = Resources.terminal_desc,
 			ComboBoxItems =
 			[
-				new(Resources.windows_terminal, "0"),
+				new("Windows Terminal", "0"),
 			],
 		},
 	];
