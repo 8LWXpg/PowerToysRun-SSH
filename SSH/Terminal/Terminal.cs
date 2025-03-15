@@ -10,6 +10,7 @@ public enum WindowMode
 public enum TerminalType
 {
 	WindowsTerminal,
+	WezTerm,
 }
 
 public static class TerminalHelper
@@ -19,6 +20,7 @@ public static class TerminalHelper
 		return type switch
 		{
 			TerminalType.WindowsTerminal => WindowsTerminal.OpenTerminal(host, title, mode),
+			TerminalType.WezTerm => WezTerm.OpenTerminal(host, title, mode),
 			_ => throw new ArgumentOutOfRangeException(nameof(type), "Impossible enum value"),
 		};
 	}

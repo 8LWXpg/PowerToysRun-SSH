@@ -46,6 +46,7 @@ public class Main : IPlugin, IPluginI18n, ISettingProvider, IReloadable, IDispos
 			ComboBoxItems =
 			[
 				new("Windows Terminal", "0"),
+				new("WezTerm", "1"),
 			],
 		},
 	];
