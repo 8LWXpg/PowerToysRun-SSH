@@ -79,7 +79,7 @@ namespace Community.PowerToys.Run.Plugin.SSH.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Controls how Windows Terminals opens new session.
+        ///   Looks up a localized string similar to Controls how new terminal session is opened.
         /// </summary>
         internal static string open_mode_desc {
             get {

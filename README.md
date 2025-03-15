@@ -4,14 +4,19 @@ A [PowerToys Run](https://aka.ms/PowerToysOverview_PowerToysRun) plugin for conn
 
 Checkout the [Template](https://github.com/8LWXpg/PowerToysRun-PluginTemplate) for a starting point to create your own plugin.
 
-> [!NOTE]
-> Different terminals might behave different on open mode.
-
 ## Features
 
 ### Open SSH connection
 
 ![screenshot](./assets/screenshot.png)
+
+## Settings
+
+### Open mode
+
+Controls how a new terminal session is opened. Note that certain terminals may not support all opening modes. For unsupported modes, the terminal will revert to the default mode, as listed below:
+
+- WezTerm: Quake
 
 ## Installation
 
