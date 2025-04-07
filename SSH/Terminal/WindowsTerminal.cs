@@ -8,9 +8,9 @@ public class WindowsTerminal : ITerminalHandler
 	{
 		var arguments = mode switch
 		{
-			WindowMode.Default => $"--title {title} \"ssh {host}\"",
-			WindowMode.NewTab => $"-w 0 nt --title {title} \"ssh {host}\"",
-			WindowMode.Quake => $"-w _quake --title {title} \"ssh {host}\"",
+			WindowMode.Default => $"--title {title} ssh {host}",
+			WindowMode.NewTab => $"-w 0 nt --title {title} ssh {host}",
+			WindowMode.Quake => $"-w _quake --title {title} ssh {host}",
 			_ => throw new ArgumentOutOfRangeException(nameof(mode), "Impossible enum value"),
 		};
 
