@@ -10,7 +10,7 @@ public partial class Lexer
 	public HashSet<string> Includes;
 
 	/// <summary>
-	/// Convert ssh config file to dictionary<key, value>
+	/// Convert ssh config file to series of <c>key</c>, <c>value</c> pair
 	/// </summary>
 	public Lexer(string configPath)
 	{

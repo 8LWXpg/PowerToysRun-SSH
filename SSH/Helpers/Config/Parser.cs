@@ -25,11 +25,11 @@ public class Parser
 			{
 				AddNode(current, Nodes, globNodes);
 
-				current = new ConfigNode
-				{
-					Host = node.Value,
-					Properties = []
-				};
+				current = new ConfigNode(node.Value, []);
+				// {
+				// 	Host = ,
+				// 	Properties = []
+				// };
 			}
 			else
 			{

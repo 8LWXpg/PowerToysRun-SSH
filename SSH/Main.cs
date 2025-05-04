@@ -1,9 +1,9 @@
-using System.Windows.Controls;
 using Community.PowerToys.Run.Plugin.SSH.Helpers;
 using Community.PowerToys.Run.Plugin.SSH.Properties;
 using Community.PowerToys.Run.Plugin.SSH.Terminal;
 using ManagedCommon;
 using Microsoft.PowerToys.Settings.UI.Library;
+using System.Windows.Controls;
 using Wox.Infrastructure;
 using Wox.Plugin;
 
