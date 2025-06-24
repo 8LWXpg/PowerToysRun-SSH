@@ -144,4 +144,10 @@
   <data name="terminal_desc" xml:space="preserve">
     <value>Default terminal to use</value>
   </data>
+  <data name="suppress_title_change" xml:space="preserve">
+    <value>Suppress window title change</value>
+  </data>
+  <data name="suppress_title_change_desc" xml:space="preserve">
+    <value>Only use this if you don't want to enable global settings</value>
+  </data>
 </root>

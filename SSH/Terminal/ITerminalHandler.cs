@@ -8,6 +8,7 @@ public interface ITerminalHandler
 	/// <param name="host">Host name showed in search</param>
 	/// <param name="title">Window title for terminal</param>
 	/// <param name="mode">Open mode for terminal emulator</param>
+	/// <param name="suppressTitleChange">Whether suppress title change</param>
 	/// <returns>Return value of <c>Wox.Infrastructure.Helper.OpenInShell</c></returns>
-	static abstract bool OpenTerminal(string host, string title, WindowMode mode);
+	static abstract bool OpenTerminal(string host, string title, WindowMode mode, bool suppressTitleChange);
 }

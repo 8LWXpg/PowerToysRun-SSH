@@ -8,14 +8,17 @@ using Wox.Infrastructure;
 using Wox.Plugin;
 
 namespace Community.PowerToys.Run.Plugin.SSH;
+
 public class Main : IPlugin, IPluginI18n, ISettingProvider, IReloadable, IDisposable
 {
 	private const string OpenMode = nameof(OpenMode);
+	private WindowMode _openMode;
 	private const string Terminal = nameof(Terminal);
+	private TerminalType _terminalType;
+	private const string SuppressTitleChange = nameof(SuppressTitleChange);
+	private bool _suppressTitleChange;
 
 	private PluginInitContext? _context;
-	private WindowMode _openMode;
-	private TerminalType _terminalType;
 	private string? _iconPath;
 	private bool _disposed;
 	public string Name => Resources.plugin_name;
@@ -49,12 +52,20 @@ public class Main : IPlugin, IPluginI18n, ISettingProvider, IReloadable, IDispos
 				new("WezTerm", "1"),
 			],
 		},
+		new()
+		{
+			PluginOptionType = PluginAdditionalOption.AdditionalOptionType.Checkbox,
+			Key = SuppressTitleChange,
+			DisplayLabel = Resources.suppress_title_change,
+			DisplayDescription = Resources.suppress_title_change_desc,
+		},
 	];
 
 	public void UpdateSettings(PowerLauncherPluginSettings settings)
 	{
 		_openMode = (WindowMode)(settings?.AdditionalOptions?.FirstOrDefault(x => x.Key == OpenMode)?.ComboBoxValue ?? 0);
 		_terminalType = (TerminalType)(settings?.AdditionalOptions?.FirstOrDefault(x => x.Key == Terminal)?.ComboBoxValue ?? 0);
+		_suppressTitleChange = settings?.AdditionalOptions?.FirstOrDefault(x => x.Key == SuppressTitleChange)?.Value ?? false;
 	}
 
 	public List<Result> Query(Query query)
@@ -72,7 +83,7 @@ public class Main : IPlugin, IPluginI18n, ISettingProvider, IReloadable, IDispos
 				IcoPath = _iconPath,
 				Score = match.Score,
 				TitleHighlightData = match.MatchData,
-				Action = _ => TerminalHelper.OpenTerminal(host.Host, host.Host, _openMode, _terminalType)
+				Action = _ => TerminalHelper.OpenTerminal(host.Host, host.Host, _openMode, _terminalType, _suppressTitleChange)
 			};
 		});
 

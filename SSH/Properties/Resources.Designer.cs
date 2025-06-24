@@ -140,5 +140,23 @@ namespace Community.PowerToys.Run.Plugin.SSH.Properties {
                 return ResourceManager.GetString("terminal_desc", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Suppress window title change.
+        /// </summary>
+        internal static string suppress_title_change {
+            get {
+                return ResourceManager.GetString("suppress_title_change", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Only use this if you don't want to enable global settings.
+        /// </summary>
+        internal static string suppress_title_change_desc {
+            get {
+                return ResourceManager.GetString("suppress_title_change_desc", resourceCulture);
+            }
+        }
     }
 }
