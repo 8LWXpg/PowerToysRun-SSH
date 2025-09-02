@@ -4,8 +4,8 @@ namespace Community.PowerToys.Run.Plugin.SSH.Classes.Config;
 
 public class Parser
 {
-	public List<ConfigNode> Nodes;
-	public HashSet<string> Includes;
+	public List<ConfigNode> Nodes { get; }
+	public HashSet<string> Includes { get; }
 
 	/// <summary>
 	/// Convert Lexer nodes to ConfigNode
