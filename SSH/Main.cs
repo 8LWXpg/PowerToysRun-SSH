@@ -1,4 +1,4 @@
-using Community.PowerToys.Run.Plugin.SSH.Helpers;
+using Community.PowerToys.Run.Plugin.SSH.Classes;
 using Community.PowerToys.Run.Plugin.SSH.Properties;
 using Community.PowerToys.Run.Plugin.SSH.Terminal;
 using ManagedCommon;

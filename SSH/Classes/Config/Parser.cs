@@ -1,6 +1,6 @@
 using GlobExpressions;
 
-namespace Community.PowerToys.Run.Plugin.SSH.Helpers.Config;
+namespace Community.PowerToys.Run.Plugin.SSH.Classes.Config;
 
 public class Parser
 {

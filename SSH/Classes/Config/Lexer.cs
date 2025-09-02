@@ -2,7 +2,7 @@ using GlobExpressions;
 using System.IO;
 using System.Text.RegularExpressions;
 
-namespace Community.PowerToys.Run.Plugin.SSH.Helpers.Config;
+namespace Community.PowerToys.Run.Plugin.SSH.Classes.Config;
 
 public partial class Lexer
 {

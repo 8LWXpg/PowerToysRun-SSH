@@ -1,6 +1,6 @@
-using Community.PowerToys.Run.Plugin.SSH.Helpers.Config;
+using Community.PowerToys.Run.Plugin.SSH.Classes.Config;
 
-namespace Community.PowerToys.Run.Plugin.SSH.Helpers;
+namespace Community.PowerToys.Run.Plugin.SSH.Classes;
 
 public record SshHost
 {
