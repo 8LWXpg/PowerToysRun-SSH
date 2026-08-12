@@ -12,10 +12,18 @@ public partial class Lexer
 	/// <summary>
 	/// Convert ssh config file to series of <c>key</c>, <c>value</c> pair
 	/// </summary>
-	public Lexer(string configPath)
+	public Lexer(string configPath) : this(configPath, []) { }
+
+	private Lexer(string configPath, HashSet<string> visited)
 	{
 		Nodes = [];
 		Includes = [configPath];
+		var fullPath = Path.GetFullPath(configPath);
+		if (!visited.Add(fullPath))
+		{
+			return;
+		}
+
 		var lines = File.ReadAllLines(configPath);
 		foreach (var line in lines)
 		{
@@ -51,7 +59,7 @@ public partial class Lexer
 				foreach (var f in files)
 				{
 					_ = Includes.Add(f);
-					var lexer = new Lexer(f);
+					var lexer = new Lexer(f, visited);
 					Nodes.AddRange(lexer.Nodes);
 					foreach (var inc in lexer.Includes)
 					{

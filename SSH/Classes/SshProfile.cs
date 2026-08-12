@@ -53,4 +53,12 @@ public static class SshProfile
 			return fileWatcher;
 		})];
 	}
+
+	public static void Dispose()
+	{
+		foreach (FileSystemWatcher fileWatcher in FileWatchers)
+		{
+			fileWatcher.Dispose();
+		}
+	}
 }

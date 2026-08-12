@@ -41,9 +41,9 @@ public class Parser
 
 		foreach (ConfigNode globNode in globNodes)
 		{
+			var glob = new Glob(globNode.Host);
 			foreach (ConfigNode node in Nodes)
 			{
-				var glob = new Glob(globNode.Host);
 				if (!glob.IsMatch(node.Host))
 				{
 					continue;

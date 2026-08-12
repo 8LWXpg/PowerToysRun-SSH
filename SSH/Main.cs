@@ -137,6 +137,8 @@ public class Main : IPlugin, IPluginI18n, ISettingProvider, IReloadable, IDispos
 				_context.API.ThemeChanged -= OnThemeChanged;
 			}
 
+			SshProfile.Dispose();
+
 			_disposed = true;
 		}
 	}
