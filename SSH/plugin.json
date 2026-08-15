@@ -6,7 +6,7 @@
   "DynamicLoading": true,
   "Name": "SSH",
   "Author": "8LWXpg",
-  "Version": "1.10.1",
+  "Version": "1.10.2",
   "Language": "csharp",
   "Website": "https://github.com/8LWXpg/PowerToysRun-SSH",
   "ExecuteFileName": "Community.PowerToys.Run.Plugin.SSH.dll",
