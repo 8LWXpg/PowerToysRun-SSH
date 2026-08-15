@@ -11,54 +11,88 @@ public static class SshProfile
 	/// </summary>
 	private static List<SshHost>? CachedHosts;
 	private static readonly Lock Lock = new();
-	private static readonly FileSystemWatcher[] FileWatchers;
+	private static Dictionary<string, FileSystemWatcher> FileWatchers = [];
 	public static List<SshHost> Hosts
 	{
 		get
 		{
 			lock (Lock)
 			{
-				CachedHosts ??= new Parser(ConfigPath).Nodes.ConvertAll(node => new SshHost(node));
+				if (CachedHosts is null)
+				{
+					var config = new Parser(ConfigPath);
+					CachedHosts = config.Nodes.ConvertAll(node => new SshHost(node));
+					SyncFileWatchers(config.Includes);
+				}
+
 				return CachedHosts;
 			}
 		}
 	}
 
 	/// <summary>
-	/// Parse config and initialize file watchersx
+	/// Parse config and initialize file watchers
 	/// </summary>
 	static SshProfile()
 	{
 		var config = new Parser(ConfigPath);
 		CachedHosts = config.Nodes.ConvertAll(node => new SshHost(node));
-		HashSet<string> includes = config.Includes;
-		FileWatchers = [.. includes.Select(inc =>
+		SyncFileWatchers(config.Includes);
+	}
+
+	/// <summary>
+	/// Reconcile <see cref="FileWatchers"/> with the current set of included files, reusing
+	/// watchers for paths that are still included and disposing ones that no longer are.
+	/// Must be called while holding <see cref="Lock"/>.
+	/// </summary>
+	private static void SyncFileWatchers(HashSet<string> includes)
+	{
+		var updated = new Dictionary<string, FileSystemWatcher>(includes.Count);
+		foreach (var inc in includes)
 		{
-			var fileWatcher = new FileSystemWatcher
-			{
-				Path = Path.GetDirectoryName(inc) ?? string.Empty,
-				Filter = Path.GetFileName(inc),
-				NotifyFilter = NotifyFilters.LastWrite
-			};
+			updated[inc] = FileWatchers.Remove(inc, out var existing) ? existing : CreateWatcher(inc);
+		}
 
-			fileWatcher.Changed += (_, _) =>
-			{
-				lock (Lock)
-				{
-					CachedHosts = null;
-				}
-			};
-			fileWatcher.EnableRaisingEvents = true;
+		foreach (FileSystemWatcher stale in FileWatchers.Values)
+		{
+			stale.Dispose();
+		}
 
-			return fileWatcher;
-		})];
+		FileWatchers = updated;
+	}
+
+	private static FileSystemWatcher CreateWatcher(string path)
+	{
+		var fileWatcher = new FileSystemWatcher
+		{
+			Path = Path.GetDirectoryName(path) ?? string.Empty,
+			Filter = Path.GetFileName(path),
+			NotifyFilter = NotifyFilters.LastWrite
+		};
+
+		fileWatcher.Changed += (_, _) =>
+		{
+			lock (Lock)
+			{
+				CachedHosts = null;
+			}
+		};
+		fileWatcher.EnableRaisingEvents = true;
+
+		return fileWatcher;
 	}
 
 	public static void Dispose()
 	{
-		foreach (FileSystemWatcher fileWatcher in FileWatchers)
+		lock (Lock)
 		{
-			fileWatcher.Dispose();
+			foreach (FileSystemWatcher fileWatcher in FileWatchers.Values)
+			{
+				fileWatcher.Dispose();
+			}
+
+			FileWatchers = [];
+			CachedHosts = null;
 		}
 	}
 }
